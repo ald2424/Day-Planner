@@ -1,6 +1,6 @@
 // *****************TODOS*********************
-// Color code
-// Fix buttons to only affect their sibling input field
+// Figure out why 9am is showing as a future time
+// Find a to connect button in table row to the user input field
 
 // Current day and time
 var NowMoment = moment();
@@ -9,48 +9,73 @@ var eDisplayMoment = document.getElementById('displayMoment');
 
 
 
-// *******************us this to try to compare h to i to change css******************
- var h = NowMoment.format('h');
+// This variable compares the current hour to the hour within the times array
+ var h = NowMoment.format('H');
 
   // ***********************Set up table data*******************
   var hours;
   var userInput;
   var save;
-var index = 1;
-var times = ["9:00am", "10:00am","11:00am", "12:00pm","1:00pm","2:00pm", "3:00pm", "4:00pm", "5:00pm"];
+var times = ["9", "10", "11", "12", "13", "14", "15", "16", "17", "18"];
+var inputArr = [];
 
 // Creates table rows for each hour
 for(var i = 0; i < times.length; i++){
   var tRow = $("<tr class='tRowClass'>");
-  hours = $("<td>").text(times[i]);
-  userInput = $("<td>").append("<input class='userInput'>");
-  save = $("<td>").append("<button class='btnClass'>" + "Save" + "</>");
+  
+  // Adding CSS based on current time
+  if(times[i] == h){
+    tRow.addClass("present");
+  }
+  else if(times[i] < h){
+    tRow.addClass("past");
+  }
+  else{
+    tRow.addClass("future");
+  }
+  
 
+  // Converting military time to standard time
+if(times[i] <= 12){
+  hours = $("<td>").text(times[i] + ":00");
+}
+else{
+  var x = times[i] - 12;
+  hours = $("<td>").text(x + ":00");
+
+}
+
+
+  // Creates input field for middle row
+    //  adding data-index that will match button's data-index
+  var input = $("<input class='userInput'>");
+  input.attr("data-index", times[i]);
+  inputArr.push(input.attr("data-index"));
+  console.log(inputArr[i]);
+  userInput = $("<td>").append(input);
+  
+  // Creates save button for last row that has the same data-index has input field
+  var saveInput = $("<button class='btnClass'>" + "Save" + "</>")
+  saveInput.attr("data-index", times[i]);
+ 
+  save = $("<td>").append(saveInput);
+
+
+  // appends hours, inputfield, and save button to table row
   tRow.append(hours, userInput, save);
     $(".table").append(tRow);
 
-    
-
-// Checks if the hour is one digit. If so, if the hour is current the font changes
-    if(times[i].charAt(1) == ":"){
-    
-      if (times[i].charAt(0) == h){ 
-         tRow.addClass("present");         
-      }
-    }
-  // else if the number is two digits, this code pulls the first two digits (first to chars) and changes the font of what matches the current time
-    else{
-      var x = times[i].slice(0,2);
-       if(x == h){
-          tRow.addClass("present");          
-        }
-      }
+  
     
   }
+
+  // ******************************** Code for saving user input to local storage on button click...... doesn"t work properly!!!!*********
   renderSavedData();
 // saves and returns user input as local storage
   function renderSavedData(){
       var input = localStorage.getItem("x");
+
+      console.log(input);
 
       if (input === null) {
         return;
@@ -62,11 +87,27 @@ for(var i = 0; i < times.length; i++){
   }
 
   $(".btnClass").on("click", function(event){
-      event.preventDefault();
-      var x = $(".userInput").val();
-      localStorage.setItem("x", x);
+    // var input = $(".userInput").attr("data-index");
+    var saveButton = $(this).attr("data-index");
+    // console.log(saveButton);
+    for(var i = 0; i < inputArr.length; i++){
+      if (saveButton == inputArr[i]){
+        event.preventDefault();
+          var x = $(".userInput").val();
+          localStorage.setItem("x", x);
+          
+           renderSavedData();
+
+      }
+    }
+    // console.log(test);
+    // if (input == saveButton){
+    //   event.preventDefault();
+    //   var x = $(".userInput").val();
+    //   localStorage.setItem("x", x);
       
-       renderSavedData();
+    //    renderSavedData();
+    // }
       
   })
 
