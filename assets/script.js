@@ -48,21 +48,36 @@ else{
 
   // Creates input field for middle row
     //  adding data-index that will match button's data-index
-  var input = $("<input class='userInput'>");
-  input.attr("data-index", times[i]);
-  inputArr.push(input.attr("data-index"));
-  console.log(inputArr[i]);
-  userInput = $("<td>").append(input);
+  // var input = $("<input class='userInput'>");
+  // input.attr("data-index", times[i]);
+  // inputArr.push(input.attr("data-index"));
+  // console.log(inputArr[i]);
+  // userInput = $("<td>").append(input);
   
-  // Creates save button for last row that has the same data-index has input field
-  var saveInput = $("<button class='btnClass'>" + "Save" + "</>")
-  saveInput.attr("data-index", times[i]);
+  // // Creates save button for last row that has the same data-index has input field
+  // var saveInput = $("<button class='btnClass'>" + "Save" + "</>")
+  // saveInput.attr("data-index", times[i]);
  
-  save = $("<td>").append(saveInput);
+  // save = $("<td>").append(saveInput);
 
+
+  var form = $("<td>").append(
+    
+ $("<textarea/>", {
+    type: 'text',
+    id: 'inputField',
+    name: 'userInput',
+    placeholder: 'Text Goes Here'
+    }), $("<input/>", {
+    type: 'submit',
+    id: 'submit',
+    onClick: 'submitInput()',
+    value: 'Submit'
+    }))
+  
 
   // appends hours, inputfield, and save button to table row
-  tRow.append(hours, userInput, save);
+  tRow.append(hours, form);
     $(".table").append(tRow);
 
   
@@ -81,25 +96,32 @@ else{
         return;
       }
 
-      $(".userInput").replaceWith("<div>" + input + "</div>");
+      $("#inputField").replaceWith("<div>" + input + "</div>");
 
      
   }
 
-  $(".btnClass").on("click", function(event){
-    // var input = $(".userInput").attr("data-index");
-    var saveButton = $(this).attr("data-index");
-    // console.log(saveButton);
-    for(var i = 0; i < inputArr.length; i++){
-      if (saveButton == inputArr[i]){
-        event.preventDefault();
-          var x = $(".userInput").val();
-          localStorage.setItem("x", x);
-          
-           renderSavedData();
+  function submitInput(){
+    var x = $("#inputField").val();
+            localStorage.setItem("x", x);
+            
+             renderSavedData();
+  }
 
-      }
-    }
+  // $(".btnClass").on("click", function(event){
+  //   // var input = $(".userInput").attr("data-index");
+  //   var saveButton = $(this).attr("data-index");
+  //   // console.log(saveButton);
+  //   for(var i = 0; i < inputArr.length; i++){
+  //     if (saveButton == inputArr[i]){
+  //       event.preventDefault();
+  //         var x = $(".userInput").val();
+  //         localStorage.setItem("x", x);
+          
+  //          renderSavedData();
+
+  //     }
+    // }
     // console.log(test);
     // if (input == saveButton){
     //   event.preventDefault();
@@ -109,7 +131,7 @@ else{
     //    renderSavedData();
     // }
       
-  })
+  // })
 
    
 
