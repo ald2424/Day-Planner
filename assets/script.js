@@ -10,14 +10,13 @@ var eDisplayMoment = document.getElementById('displayMoment');
 
 
 // This variable compares the current hour to the hour within the times array
- var h = NowMoment.format('H');
+ var h = NowMoment.format('HH');
+
 
   // ***********************Set up table data*******************
   var hours;
-  var userInput;
-  var save;
-var times = ["9", "10", "11", "12", "13", "14", "15", "16", "17", "18"];
-var inputArr = [];
+  
+var times = ["09", "10", "11", "12", "13", "14", "15", "16", "17"];
 
 // Creates table rows for each hour
 for(var i = 0; i < times.length; i++){
@@ -27,11 +26,11 @@ for(var i = 0; i < times.length; i++){
   if(times[i] == h){
     tRow.addClass("present");
   }
-  else if(times[i] < h){
-    tRow.addClass("past");
+  else if(times[i] > h){
+    tRow.addClass("future");
   }
   else{
-    tRow.addClass("future");
+    tRow.addClass("past");
   }
   
 
@@ -46,36 +45,23 @@ else{
 }
 
 
-  // Creates input field for middle row
-    //  adding data-index that will match button's data-index
-  // var input = $("<input class='userInput'>");
-  // input.attr("data-index", times[i]);
-  // inputArr.push(input.attr("data-index"));
-  // console.log(inputArr[i]);
-  // userInput = $("<td>").append(input);
-  
-  // // Creates save button for last row that has the same data-index has input field
-  // var saveInput = $("<button class='btnClass'>" + "Save" + "</>")
-  // saveInput.attr("data-index", times[i]);
- 
-  // save = $("<td>").append(saveInput);
-
 
   var form = $("<td>").append(
     
  $("<textarea/>", {
     type: 'text',
-    id: 'inputField',
     name: 'userInput',
+    id: times[i],
     placeholder: 'Text Goes Here'
     }), $("<input/>", {
     type: 'submit',
-    id: 'submit',
+    id: times[i],
     onClick: 'submitInput()',
-    value: 'Submit'
+    value: 'Submit',
+    addClass: 'saveBtn'
     }))
   
-
+  
   // appends hours, inputfield, and save button to table row
   tRow.append(hours, form);
     $(".table").append(tRow);
@@ -85,6 +71,11 @@ else{
   }
 
   // ******************************** Code for saving user input to local storage on button click...... doesn"t work properly!!!!*********
+ 
+ 
+ 
+ 
+ 
   renderSavedData();
 // saves and returns user input as local storage
   function renderSavedData(){
@@ -96,42 +87,20 @@ else{
         return;
       }
 
-      $("#inputField").replaceWith("<div>" + input + "</div>");
+      $("#09").replaceWith("<div>" + input + "</div>");
 
      
   }
-
+ 
   function submitInput(){
-    var x = $("#inputField").val();
+      
+    var x = $("#09").val();
             localStorage.setItem("x", x);
             
              renderSavedData();
   }
 
-  // $(".btnClass").on("click", function(event){
-  //   // var input = $(".userInput").attr("data-index");
-  //   var saveButton = $(this).attr("data-index");
-  //   // console.log(saveButton);
-  //   for(var i = 0; i < inputArr.length; i++){
-  //     if (saveButton == inputArr[i]){
-  //       event.preventDefault();
-  //         var x = $(".userInput").val();
-  //         localStorage.setItem("x", x);
-          
-  //          renderSavedData();
-
-  //     }
-    // }
-    // console.log(test);
-    // if (input == saveButton){
-    //   event.preventDefault();
-    //   var x = $(".userInput").val();
-    //   localStorage.setItem("x", x);
-      
-    //    renderSavedData();
-    // }
-      
-  // })
+  
 
    
 
