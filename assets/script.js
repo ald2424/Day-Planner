@@ -149,7 +149,7 @@ else{
 
 function renderTasks(){
 var storedTask09 = localStorage.getItem('task9a');
-$("#input09").text(storedTask09);
+$("#input09").attr("placeholder", storedTask09);
 
 console.log(storedTask09);
 }
