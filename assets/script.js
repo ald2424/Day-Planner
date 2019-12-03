@@ -23,7 +23,7 @@ var x;
 var tRow;
 // Creates table rows for each hour
 for(var i = 0; i < times.length; i++){
-  tRow = $("<tr class='tRowClass'>");
+  tRow = $("<div class='row'>");
   
   // Adding CSS based on current time
   if(times[i] == h){
@@ -39,34 +39,38 @@ for(var i = 0; i < times.length; i++){
 
   // Converting military time to standard time
 if(times[i] <= 12){
-  hours = $("<td>").text(times[i] + ":00");
+  hours = $("<div class='col-md-4'>").text(times[i] + ":00");
 }
 else{
   x = times[i] - 12;
-  hours = $("<td>").text(x + ":00");
+  hours = $("<div class='col-md-4'>").text(x + ":00");
 
 }
 
 
 
-  form = $("<td>").append(
+  form = $("<div class='col-md-4'>").append(
     
  $("<textarea/>", {
     type: 'text',
     name: 'userInput',
     id: 'input' + times[i],
-    class:'textArea'
-    // placeholder: 'Text Goes Here'
-    }), $("<input/>", {
+    class:'textArea',
+    placeholder: 'Text Goes Here'
+    })
+  )
+  button = $("<div class='col-md-4 text-center my-auto'>").append(
+    $("<input/>", {
     type: 'submit',
     id: times[i],
     value: 'Submit',
     addClass: 'saveBtn'
-    }))
+    })
+    )
   
   
   // appends hours, inputfield, and save button to table row
-  tRow.append(hours, form);
+  tRow.append(hours, form, button);
     $(".table").append(tRow);
 
   
@@ -149,7 +153,7 @@ else{
 
 function renderTasks(){
 var storedTask09 = localStorage.getItem('task9a');
-$("#input09").attr("placeholder", storedTask09);
+$("#input09").attr("placeholder",storedTask09);
 
 console.log(storedTask09);
 }
